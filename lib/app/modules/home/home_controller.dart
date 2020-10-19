@@ -1,5 +1,7 @@
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:the_movie_challenge/app/modules/home/repositories/genre_repository.dart';
+import 'package:the_movie_challenge/app/shared/models/genre_model.dart';
 
 part 'home_controller.g.dart';
 
@@ -7,11 +9,24 @@ part 'home_controller.g.dart';
 class HomeController = _HomeControllerBase with _$HomeController;
 
 abstract class _HomeControllerBase with Store {
+  final GenreRepository _genreRepository;
+
+  _HomeControllerBase(this._genreRepository) {
+    fetchGenres();
+  }
+
   @observable
-  int value = 0;
+  ObservableFuture<List<GenreModel>> genreFuture = ObservableFuture.value([]);
+
+  @observable
+  ObservableList<GenreModel> genreList = <GenreModel>[].asObservable();
 
   @action
-  void increment() {
-    value++;
+  fetchGenres() {
+    genreFuture = _genreRepository.getGenres().asObservable();
+
+    genreFuture.whenComplete(
+      () => genreList.addAll(genreFuture.value),
+    );
   }
 }

@@ -24,7 +24,7 @@ vars:
     runner: flutter pub run build_runner
 scripts: 
     mobx_build: $runner build
-    mobx_watch: $clean & $get & $runner watch
+    mobx_watch: $runner watch --delete-conflicting-outputs
     mobx_build_clean: $clean & $get & $runner build --delete-conflicting-outputs
 
 
@@ -79,12 +79,12 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat-Regular.ttf
+        - asset: assets/fonts/Montserrat-Bold.ttf
+          weight: 600
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
