@@ -26,22 +26,33 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
           child: Stack(
             children: [
               Container(
-                margin: EdgeInsets.only(top: 200),
+                margin: EdgeInsets.only(top: 176),
                 child: Observer(
                   builder: (_) {
                     return ListView.separated(
-                      padding: EdgeInsets.only(top: 39, bottom: 57),
+                      padding: EdgeInsets.only(top: 66, bottom: 57),
                       itemCount: controller.movieList.length,
                       separatorBuilder: (context, index) => SizedBox(
                         height: 16,
                       ),
                       itemBuilder: (context, index) {
                         var movie = controller.movieList[index];
-                        return movieItem(
-                          size,
-                          title: movie.title,
-                          genres: movie.genres,
-                          image: movie.posterPath,
+                        return InkWell(
+                          onTap: () {
+                            Modular.to.pushNamed(
+                              '/movie/${movie.id}',
+                              arguments: movie.posterPath,
+                            );
+                          },
+                          child: Hero(
+                            tag: movie.id.toString(),
+                            child: movieItem(
+                              size,
+                              title: movie.title,
+                              genres: movie.genres,
+                              image: movie.posterPath,
+                            ),
+                          ),
                         );
                       },
                     );
@@ -64,6 +75,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                     ),
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       appBar(widget.title),
                       searchFilms(size),
@@ -80,6 +92,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
   }
 
   Widget movieItem(Size size, {String title, String genres, String image}) {
+    print(genres);
     return Container(
       margin: EdgeInsets.only(
         left: 20,
@@ -128,29 +141,35 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: 296,
-                  child: Text(
-                    '$title'.toUpperCase(),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
+                Material(
+                  color: Colors.transparent,
+                  child: Container(
+                    width: 296,
+                    child: Text(
+                      '$title'.toUpperCase(),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
                 SizedBox(
                   height: 12,
                 ),
-                Container(
-                  width: 296,
-                  child: Text(
-                    '$genres',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: Colors.white,
+                Material(
+                  color: Colors.transparent,
+                  child: Container(
+                    width: 296,
+                    child: Text(
+                      '$genres',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -164,7 +183,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
 
   Widget listOfCategories(Size size) {
     return Container(
-      height: 40,
+      height: 24,
       margin: EdgeInsets.only(top: 16),
       width: size.width,
       child: Observer(
@@ -180,7 +199,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
               return Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: 12,
-                  vertical: 4,
+                  // vertical: 4,
                 ),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
