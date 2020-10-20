@@ -19,42 +19,62 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            pinned: false,
-            floating: true,
-            snap: true,
-            backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-            expandedHeight: 230,
-            flexibleSpace: ListView(
-              children: [
-                appBar(widget.title),
-                searchFilms(size),
-                listOfCategories(size),
-              ],
-            ),
-          ),
-          Observer(
-            builder: (_) {
-              return SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    var movie = controller.movieList[index];
-
-                    return movieItem(
-                      size,
-                      title: movie.title,
-                      genres: movie.genres,
-                      image: movie.posterPath,
+      body: SingleChildScrollView(
+        child: Container(
+          height: size.height,
+          width: size.width,
+          child: Stack(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 200),
+                child: Observer(
+                  builder: (_) {
+                    return ListView.separated(
+                      padding: EdgeInsets.only(top: 39, bottom: 57),
+                      itemCount: controller.movieList.length,
+                      separatorBuilder: (context, index) => SizedBox(
+                        height: 16,
+                      ),
+                      itemBuilder: (context, index) {
+                        var movie = controller.movieList[index];
+                        return movieItem(
+                          size,
+                          title: movie.title,
+                          genres: movie.genres,
+                          image: movie.posterPath,
+                        );
+                      },
                     );
                   },
-                  childCount: controller.movieList.length,
                 ),
-              );
-            },
+              ),
+              Positioned(
+                top: 0,
+                child: Container(
+                  height: 245,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      stops: [0.69, 1],
+                      colors: [
+                        Color.fromRGBO(255, 255, 255, 1),
+                        Color.fromRGBO(255, 255, 255, 0),
+                      ],
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      appBar(widget.title),
+                      searchFilms(size),
+                      listOfCategories(size),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -64,8 +84,6 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
       margin: EdgeInsets.only(
         left: 20,
         right: 20,
-        bottom: 10,
-        top: 6,
       ),
       height: 470,
       width: size.width,
@@ -166,6 +184,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                 ),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(26),
                   border: Border.all(
                     width: 1,
