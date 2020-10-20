@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:the_movie_challenge/app/modules/home/repositories/genre_repository.dart';
+import 'package:the_movie_challenge/app/modules/home/repositories/movie_repository.dart';
 
 import 'home_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -12,10 +13,16 @@ class HomeModule extends ChildModule {
         Bind(
           (i) => HomeController(
             i.get<GenreRepository>(),
+            i.get<MovieRepository>(),
           ),
         ),
         Bind(
           (i) => GenreRepository(
+            i.get<Dio>(),
+          ),
+        ),
+        Bind(
+          (i) => MovieRepository(
             i.get<Dio>(),
           ),
         ),

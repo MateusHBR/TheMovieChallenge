@@ -9,6 +9,7 @@ class AppWidget extends StatelessWidget {
       statusBarIconBrightness: Brightness.dark,
       statusBarColor: Colors.transparent, // status bar color
     ));
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: Modular.navigatorKey,

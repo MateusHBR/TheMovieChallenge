@@ -8,7 +8,6 @@ class GenreRepository {
   GenreRepository(this._dio);
 
   Future<List<GenreModel>> getGenres() async {
-    print(_dio.options.baseUrl);
     var response = await _dio.get(
       "/genre/movie/list?api_key=$API_KEY&language=pt-BR",
     );
@@ -23,4 +22,3 @@ class GenreRepository {
     return genreList;
   }
 }
-//

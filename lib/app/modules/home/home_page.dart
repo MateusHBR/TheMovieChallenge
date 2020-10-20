@@ -35,187 +35,111 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
               ],
             ),
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return Container(
-                  margin: EdgeInsets.only(
-                    left: 20,
-                    right: 20,
-                    bottom: 10,
-                    top: 6,
-                  ),
-                  height: 470,
-                  width: size.width,
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        bottom: 0,
-                        child: Container(
-                          height: 162,
-                          width: size.width,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(10),
-                              bottomLeft: Radius.circular(10),
-                            ),
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              stops: [0.0, 0.43, 1],
-                              colors: [
-                                Color.fromRGBO(0, 0, 0, 0),
-                                Color.fromRGBO(0, 0, 0, 63),
-                                Color.fromRGBO(0, 0, 0, 1),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 32,
-                        left: 24,
-                        child: Column(
-                          children: [
-                            Text(
-                              'Capitã Marvel'.toUpperCase(),
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 12,
-                            ),
-                            Text(
-                              'Ação - Aventura',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-              childCount: 10,
-            ),
-          )
+          Observer(
+            builder: (_) {
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    var movie = controller.movieList[index];
+
+                    return movieItem(
+                      size,
+                      title: movie.title,
+                      genres: movie.genres,
+                      image: movie.posterPath,
+                    );
+                  },
+                  childCount: controller.movieList.length,
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
-
-    // return Scaffold(
-    //   body: SingleChildScrollView(
-    //     child: Container(
-    //       height: size.height,
-    //       width: size.width,
-    //       decoration: BoxDecoration(
-    //         gradient: LinearGradient(
-    //           begin: Alignment.topCenter,
-    //           end: Alignment.bottomCenter,
-    //           colors: [
-    //             Color.fromRGBO(255, 255, 255, 1),
-    //             Color.fromRGBO(255, 255, 255, 0),
-    //           ],
-    //         ),
-    //       ),
-    //       child: Column(
-    //         children: <Widget>[
-    //           appBar(widget.title),
-    //           searchFilms(size),
-    //           listOfCategories(size),
-    //           listOfFilms(size),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 
-  Widget listOfFilms(Size size) {
-    return Expanded(
-      child: Container(
-        margin: EdgeInsets.only(top: 9),
-        child: ListView.separated(
-          padding: EdgeInsets.only(
-            left: 20,
-            right: 20,
-            top: 30,
-            bottom: 57,
+  Widget movieItem(Size size, {String title, String genres, String image}) {
+    return Container(
+      margin: EdgeInsets.only(
+        left: 20,
+        right: 20,
+        bottom: 10,
+        top: 6,
+      ),
+      height: 470,
+      width: size.width,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: NetworkImage(
+            "https://image.tmdb.org/t/p/w220_and_h330_face/$image",
           ),
-          itemCount: 2,
-          separatorBuilder: (context, index) => SizedBox(
-            height: 16,
-          ),
-          itemBuilder: (context, index) {
-            return Container(
-              height: 470,
+        ),
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            bottom: 0,
+            child: Container(
+              height: 162,
               width: size.width,
               decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                ),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [0.0, 0.43, 1],
+                  colors: [
+                    Color.fromRGBO(0, 0, 0, 0),
+                    Color.fromRGBO(0, 0, 0, 63),
+                    Color.fromRGBO(0, 0, 0, 1),
+                  ],
+                ),
               ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    bottom: 0,
-                    child: Container(
-                      height: 162,
-                      width: size.width,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(10),
-                          bottomLeft: Radius.circular(10),
-                        ),
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          stops: [0.0, 0.43, 1],
-                          colors: [
-                            Color.fromRGBO(0, 0, 0, 0),
-                            Color.fromRGBO(0, 0, 0, 63),
-                            Color.fromRGBO(0, 0, 0, 1),
-                          ],
-                        ),
-                      ),
+            ),
+          ),
+          Positioned(
+            bottom: 32,
+            left: 24,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 296,
+                  child: Text(
+                    '$title'.toUpperCase(),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                  Positioned(
-                    bottom: 32,
-                    left: 24,
-                    child: Column(
-                      children: [
-                        Text(
-                          'Capitã Marvel'.toUpperCase(),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        Text(
-                          'Ação - Aventura',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Container(
+                  width: 296,
+                  child: Text(
+                    '$genres',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Colors.white,
                     ),
                   ),
-                ],
-              ),
-            );
-          },
-        ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

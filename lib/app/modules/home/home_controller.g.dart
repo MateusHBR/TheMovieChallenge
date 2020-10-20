@@ -7,7 +7,7 @@ part of 'home_controller.dart';
 // **************************************************************************
 
 final $HomeController = BindInject(
-  (i) => HomeController(i<GenreRepository>()),
+  (i) => HomeController(i<GenreRepository>(), i<MovieRepository>()),
   singleton: true,
   lazy: true,
 );
@@ -49,6 +49,36 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
+  final _$movieFutureAtom = Atom(name: '_HomeControllerBase.movieFuture');
+
+  @override
+  ObservableFuture<List<MovieModel>> get movieFuture {
+    _$movieFutureAtom.reportRead();
+    return super.movieFuture;
+  }
+
+  @override
+  set movieFuture(ObservableFuture<List<MovieModel>> value) {
+    _$movieFutureAtom.reportWrite(value, super.movieFuture, () {
+      super.movieFuture = value;
+    });
+  }
+
+  final _$movieListAtom = Atom(name: '_HomeControllerBase.movieList');
+
+  @override
+  ObservableList<MovieModel> get movieList {
+    _$movieListAtom.reportRead();
+    return super.movieList;
+  }
+
+  @override
+  set movieList(ObservableList<MovieModel> value) {
+    _$movieListAtom.reportWrite(value, super.movieList, () {
+      super.movieList = value;
+    });
+  }
+
   final _$_HomeControllerBaseActionController =
       ActionController(name: '_HomeControllerBase');
 
@@ -64,10 +94,23 @@ mixin _$HomeController on _HomeControllerBase, Store {
   }
 
   @override
+  dynamic fetchMovies() {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.fetchMovies');
+    try {
+      return super.fetchMovies();
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 genreFuture: ${genreFuture},
-genreList: ${genreList}
+genreList: ${genreList},
+movieFuture: ${movieFuture},
+movieList: ${movieList}
     ''';
   }
 }
