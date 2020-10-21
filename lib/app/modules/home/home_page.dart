@@ -26,25 +26,44 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
           width: size.width,
           child: Observer(
             builder: (_) {
-              if (controller.genreFuture.status == FutureStatus.rejected ||
-                  controller.movieFuture.status == FutureStatus.rejected) {
+              if (controller.genreFuture.status == FutureStatus.rejected) {
                 return Center(
-                  child: Icon(Icons.error_outline_outlined),
+                  child: Icon(
+                    Icons.error_outline_outlined,
+                    color: Colors.red,
+                  ),
                 );
               }
 
-              if (controller.genreFuture.status == FutureStatus.pending ||
-                  controller.movieFuture.status == FutureStatus.pending) {
+              if (controller.genreFuture.status == FutureStatus.pending) {
                 return Center(
                   child: CircularProgressIndicator(),
                 );
               }
+
               return Stack(
                 children: [
                   Container(
                     margin: EdgeInsets.only(top: 176),
                     child: Observer(
                       builder: (_) {
+                        if (controller.movieFuture.status ==
+                            FutureStatus.rejected) {
+                          return Center(
+                            child: Icon(
+                              Icons.error_outline_outlined,
+                              color: Colors.red,
+                            ),
+                          );
+                        }
+
+                        if (controller.movieFuture.status ==
+                            FutureStatus.pending) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
                         return ListView.separated(
                           padding: EdgeInsets.only(top: 66, bottom: 57),
                           itemCount: controller.movieList.length,
@@ -218,7 +237,10 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
               return Observer(
                 builder: (_) {
                   return InkWell(
-                    onTap: () => controller.onChangeCategory(index),
+                    onTap: () => controller.onChangeCategory(
+                      index: index,
+                      id: item.id,
+                    ),
                     child: Container(
                       padding: EdgeInsets.symmetric(
                         horizontal: 12,

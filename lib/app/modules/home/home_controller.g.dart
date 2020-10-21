@@ -114,11 +114,11 @@ mixin _$HomeController on _HomeControllerBase, Store {
       ActionController(name: '_HomeControllerBase');
 
   @override
-  dynamic onChangeCategory(int id) {
+  dynamic onChangeCategory({@required int index, @required int id}) {
     final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
         name: '_HomeControllerBase.onChangeCategory');
     try {
-      return super.onChangeCategory(id);
+      return super.onChangeCategory(index: index, id: id);
     } finally {
       _$_HomeControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -141,6 +141,17 @@ mixin _$HomeController on _HomeControllerBase, Store {
         name: '_HomeControllerBase.fetchMovies');
     try {
       return super.fetchMovies();
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic filterMovies() {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.filterMovies');
+    try {
+      return super.filterMovies();
     } finally {
       _$_HomeControllerBaseActionController.endAction(_$actionInfo);
     }

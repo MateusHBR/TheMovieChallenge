@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:the_movie_challenge/app/modules/home/models/movie_model.dart';
@@ -17,7 +18,6 @@ abstract class _HomeControllerBase with Store {
 
   _HomeControllerBase(this._genreRepository, this._moviesRepository) {
     fetchGenres();
-    fetchMovies();
   }
 
   @observable
@@ -37,8 +37,10 @@ abstract class _HomeControllerBase with Store {
   int currentPage = 0;
 
   @action
-  onChangeCategory(int id) {
-    selectedCategory = id;
+  onChangeCategory({@required int index, @required int id}) {
+    print(id);
+    selectedCategory = index;
+    filterMovies();
   }
 
   @action
@@ -46,19 +48,41 @@ abstract class _HomeControllerBase with Store {
     genreFuture = _genreRepository.getGenres().asObservable();
 
     genreFuture.whenComplete(
-      () => genreList.addAll(genreFuture.value),
+      () => {
+        genreList.addAll(genreFuture.value),
+        fetchMovies(),
+      },
     );
   }
 
   @action
   fetchMovies() {
     movieFuture = _moviesRepository.getMovies().asObservable();
+    List<MovieModel> filteredMovies = [];
 
     movieFuture.whenComplete(
       () => {
-        movieList.addAll(movieFuture.value),
+        filteredMovies = movieFuture.value
+            .where(
+              (movie) =>
+                  movie.genreIds.contains(genreList[selectedCategory].id),
+            )
+            .toList(),
+        movieList.addAll(filteredMovies),
       },
     );
+  }
+
+  @action
+  filterMovies() {
+    List<MovieModel> filteredMovies = [];
+
+    filteredMovies = movieFuture.value
+        .where(
+            (movie) => movie.genreIds.contains(genreList[selectedCategory].id))
+        .toList();
+
+    movieList.replaceRange(0, movieList.length, filteredMovies);
   }
 
   @action
