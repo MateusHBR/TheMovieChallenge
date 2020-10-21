@@ -74,7 +74,7 @@ class _MoviePageState extends ModularState<MoviePage, MovieController> {
                 description(
                   size,
                   description: movie.overview,
-                  value: movie.budget.toString() ?? 'Não Informado',
+                  value: movie.budget.toString(),
                 ),
                 team(
                   cast: controller.convertCast(
@@ -182,7 +182,7 @@ Widget description(Size size,
           children: [
             GrayTagWidget(
               itemKey: "ORÇAMENTO",
-              itemValue: "\$ $value",
+              itemValue: identical(value, "0") ? "Não Informado" : "\$ $value",
               width: size.width,
             ),
             SizedBox(
