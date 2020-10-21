@@ -1,3 +1,6 @@
+import 'package:the_movie_challenge/app/modules/movie/models/cast_model.dart';
+import 'package:the_movie_challenge/app/modules/movie/models/credits_model.dart';
+import 'package:the_movie_challenge/app/modules/movie/models/crew_model.dart';
 import 'package:the_movie_challenge/app/modules/movie/models/production_company.dart';
 import 'package:the_movie_challenge/app/shared/models/genre_model.dart';
 
@@ -10,7 +13,9 @@ class CurrentMovieModel {
   double voteAverage;
   List<GenreModel> genres;
   int runtime;
+  double budget;
   List<ProductionCompany> productionCompanies;
+  CreditsModel creditsModel;
 
   CurrentMovieModel({
     this.title,
@@ -22,6 +27,8 @@ class CurrentMovieModel {
     this.posterPath,
     this.voteAverage,
     this.runtime,
+    this.creditsModel,
+    this.budget,
   });
 
   CurrentMovieModel.fromJson(Map<String, dynamic> json) {
@@ -32,6 +39,7 @@ class CurrentMovieModel {
     posterPath = json['poster_path'];
     voteAverage = json['vote_average'];
     runtime = json['runtime'];
+    budget = json['budget'];
     if (json['genres'] != null) {
       genres = new List<GenreModel>();
       json['genres'].forEach((v) {
@@ -44,5 +52,8 @@ class CurrentMovieModel {
         productionCompanies.add(new ProductionCompany.fromJson(v));
       });
     }
+    creditsModel = json['credits'] != null
+        ? new CreditsModel.fromJson(json['credits'])
+        : null;
   }
 }

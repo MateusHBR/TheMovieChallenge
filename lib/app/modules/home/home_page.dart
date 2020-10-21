@@ -92,7 +92,6 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
   }
 
   Widget movieItem(Size size, {String title, String genres, String image}) {
-    print(genres);
     return Container(
       margin: EdgeInsets.only(
         left: 20,
@@ -104,7 +103,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
         image: DecorationImage(
           fit: BoxFit.cover,
           image: NetworkImage(
-            "https://image.tmdb.org/t/p/w220_and_h330_face/$image",
+            "https://image.tmdb.org/t/p/w780/$image",
           ),
         ),
         color: Colors.blue,

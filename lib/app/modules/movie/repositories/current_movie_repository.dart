@@ -10,7 +10,9 @@ class CurrentMovieRepository {
   CurrentMovieRepository(this._dio);
 
   Future<CurrentMovieModel> getMovieData({@required String id}) async {
-    var response = await _dio.get("/movie/$id?api_key=$API_KEY&language=pt-BR");
+    var response = await _dio.get(
+      "/movie/$id?api_key=$API_KEY&language=pt-BR&append_to_response=credits",
+    );
 
     CurrentMovieModel movie = CurrentMovieModel.fromJson(
       response.data,

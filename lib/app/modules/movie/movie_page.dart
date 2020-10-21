@@ -30,56 +30,69 @@ class _MoviePageState extends ModularState<MoviePage, MovieController> {
       body: Container(
         height: size.height,
         width: size.width,
-        child: Observer(builder: (_) {
-          if (controller.currentMovieFuture.value == null) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+        child: Observer(
+          builder: (_) {
+            if (controller.currentMovieFuture.value == null) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-          if (controller.currentMovieFuture.status == FutureStatus.pending) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          var movie = controller.currentMovieData;
+            if (controller.currentMovieFuture.status == FutureStatus.pending) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-          return ListView(
-            children: <Widget>[
-              header(
-                size,
-                heroKey: widget.id,
-                posterPath: widget.posterPath,
-              ),
-              SizedBox(height: 32),
-              rating(
-                voteAverage: movie.voteAverage,
-              ),
-              title(
-                title: movie.title,
-                originalTitle: movie.originalTitle,
-              ),
-              Column(
-                children: [
-                  yearDurationInformation(
-                    year: movie.releaseDate.substring(0, 4),
-                    duration: controller.convertTime(movie.runtime),
+            var movie = controller.currentMovieData;
+            return ListView(
+              children: <Widget>[
+                header(
+                  size,
+                  heroKey: widget.id,
+                  posterPath: widget.posterPath,
+                ),
+                SizedBox(height: 32),
+                rating(
+                  voteAverage: movie.voteAverage,
+                ),
+                title(
+                  title: movie.title,
+                  originalTitle: movie.originalTitle,
+                ),
+                Column(
+                  children: [
+                    yearDurationInformation(
+                      year: movie.releaseDate.substring(0, 4),
+                      duration: controller.convertTime(movie.runtime),
+                    ),
+                    SizedBox(height: 12),
+                    genres(context, listOfGenres: movie.genres),
+                  ],
+                ),
+                description(
+                  size,
+                  description: movie.overview,
+                  value: movie.budget.toString() ?? 'Não Informado',
+                ),
+                team(
+                  cast: controller.convertCast(
+                    movie.creditsModel.cast,
                   ),
-                  SizedBox(height: 12),
-                  genres(context, listOfGenres: movie.genres),
-                ],
-              ),
-              description(size, description: movie.overview),
-              team(),
-            ],
-          );
-        }),
+                  crew: controller.convertDirector(
+                    movie.creditsModel.crew,
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
 }
 
-Widget team() {
+Widget team({@required String cast, @required String crew}) {
   return Padding(
     padding: EdgeInsets.only(left: 20, right: 20, bottom: 90),
     child: Column(
@@ -95,7 +108,7 @@ Widget team() {
         Padding(
           padding: EdgeInsets.only(top: 8, bottom: 32),
           child: Text(
-            "Mateus de Morais Ramalho",
+            crew,
             style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 12,
@@ -113,7 +126,10 @@ Widget team() {
         Padding(
           padding: EdgeInsets.only(top: 8),
           child: Text(
-            "Mateus de Morais Ramalho",
+            cast,
+            overflow: TextOverflow.visible,
+            textAlign: TextAlign.justify,
+            softWrap: true,
             style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 12,
@@ -126,7 +142,8 @@ Widget team() {
   );
 }
 
-Widget description(Size size, {@required String description}) {
+Widget description(Size size,
+    {@required String description, @required String value}) {
   return Column(
     children: [
       Padding(
@@ -164,7 +181,7 @@ Widget description(Size size, {@required String description}) {
           children: [
             GrayTagWidget(
               itemKey: "ORÇAMENTO",
-              itemValue: "\$ 123,456,789",
+              itemValue: "\$ $value",
               width: size.width,
             ),
             SizedBox(
@@ -185,8 +202,10 @@ Widget description(Size size, {@required String description}) {
 Widget genres(BuildContext context, {@required List<GenreModel> listOfGenres}) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 20),
-    child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+    child: Wrap(
+        runSpacing: 8,
+        spacing: 8,
+        alignment: WrapAlignment.center,
         children: listOfGenres.map(
           (genre) {
             return GenreMovieItem(
@@ -338,7 +357,7 @@ Widget header(
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(
-                          "https://image.tmdb.org/t/p/w220_and_h330_face/$posterPath",
+                          "https://image.tmdb.org/t/p/w780/$posterPath",
                         ),
                       ),
                       color: Colors.grey,

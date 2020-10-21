@@ -1,5 +1,7 @@
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:the_movie_challenge/app/modules/movie/models/cast_model.dart';
+import 'package:the_movie_challenge/app/modules/movie/models/crew_model.dart';
 import 'package:the_movie_challenge/app/modules/movie/models/current_movie_model.dart';
 import 'package:the_movie_challenge/app/modules/movie/repositories/current_movie_repository.dart';
 
@@ -39,8 +41,29 @@ abstract class _MovieControllerBase with Store {
     currentMovieFuture.whenComplete(
       () => currentMovieData = currentMovieFuture.value,
     );
+    // currentMovieData.creditsModel.cast
     status = true;
-    // print(currentMovieData.posterPath);
+  }
+
+  String convertCast(List<CastModel> cast) {
+    return '${cast.map((person) => person.name)}'
+        .replaceAll('(', '')
+        .replaceAll(')', '');
+  }
+
+  String convertDirector(List<CrewModel> crew) {
+    String directors = '';
+
+    crew.forEach(
+      (currentCrew) => {
+        if (currentCrew.job.contains("Director"))
+          {
+            directors = directors + "${currentCrew.name}, ",
+          }
+      },
+    );
+
+    return directors.substring(0, directors.length - 2);
   }
 
   String convertTime(int value) {
