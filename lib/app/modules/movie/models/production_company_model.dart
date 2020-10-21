@@ -1,10 +1,10 @@
-class ProductionCompany {
+class ProductionCompanyModel {
   int id;
   String name;
 
-  ProductionCompany({this.id, this.name});
+  ProductionCompanyModel({this.id, this.name});
 
-  ProductionCompany.fromJson(Map<String, dynamic> json) {
+  ProductionCompanyModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
   }

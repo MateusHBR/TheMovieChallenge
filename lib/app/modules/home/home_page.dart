@@ -24,76 +24,87 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
         child: Container(
           height: size.height,
           width: size.width,
-          child: Stack(
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 176),
-                child: Observer(
-                  builder: (_) {
-                    return ListView.separated(
-                      padding: EdgeInsets.only(top: 66, bottom: 57),
-                      itemCount: controller.movieList.length,
-                      separatorBuilder: (context, index) => SizedBox(
-                        height: 16,
-                      ),
-                      itemBuilder: (context, index) {
-                        var movie = controller.movieList[index];
-                        return InkWell(
-                          onTap: () {
-                            Modular.to.pushNamed(
-                              '/movie/${movie.id}',
-                              arguments: movie.posterPath,
+          child: Observer(
+            builder: (_) {
+              if (controller.genreFuture.status == FutureStatus.rejected ||
+                  controller.movieFuture.status == FutureStatus.rejected) {
+                return Center(
+                  child: Icon(Icons.error_outline_outlined),
+                );
+              }
+
+              if (controller.genreFuture.status == FutureStatus.pending ||
+                  controller.movieFuture.status == FutureStatus.pending) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return Stack(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 176),
+                    child: Observer(
+                      builder: (_) {
+                        return ListView.separated(
+                          padding: EdgeInsets.only(top: 66, bottom: 57),
+                          itemCount: controller.movieList.length,
+                          separatorBuilder: (context, index) => SizedBox(
+                            height: 16,
+                          ),
+                          itemBuilder: (context, index) {
+                            var movie = controller.movieList[index];
+                            return InkWell(
+                              onTap: () {
+                                Modular.to.pushNamed(
+                                  '/movie/${movie.id}',
+                                  arguments: movie.posterPath,
+                                );
+                              },
+                              child: Hero(
+                                tag: movie.id.toString(),
+                                child: movieItem(
+                                  size,
+                                  title: movie.title,
+                                  genres: controller.getGenresFromMovies(
+                                    movie.genreIds,
+                                  ),
+                                  image: movie.posterPath,
+                                ),
+                              ),
                             );
                           },
-                          child: Hero(
-                            tag: movie.id.toString(),
-                            child: movieItem(
-                              size,
-                              title: movie.title,
-                              genres: movie.genres,
-                              image: movie.posterPath,
-                            ),
-                          ),
                         );
                       },
-                    );
-                  },
-                ),
-              ),
-              Positioned(
-                top: 0,
-                child: Container(
-                  height: 245,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      stops: [0.69, 1],
-                      colors: [
-                        Color.fromRGBO(255, 255, 255, 1),
-                        Color.fromRGBO(255, 255, 255, 0),
-                      ],
                     ),
                   ),
-                  child: Observer(builder: (_) {
-                    if (controller.movieFuture.status == FutureStatus.pending) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        appBar(widget.title),
-                        searchFilms(size),
-                        listOfCategories(size),
-                      ],
-                    );
-                  }),
-                ),
-              ),
-            ],
+                  Positioned(
+                    top: 0,
+                    child: Container(
+                      height: 245,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          stops: [0.69, 1],
+                          colors: [
+                            Color.fromRGBO(255, 255, 255, 1),
+                            Color.fromRGBO(255, 255, 255, 0),
+                          ],
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          appBar(widget.title),
+                          searchFilms(size),
+                          listOfCategories(size),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),
@@ -204,27 +215,38 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
             itemBuilder: (context, index) {
               var item = controller.genreList[index];
 
-              return Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 12,
-                  // vertical: 4,
-                ),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(26),
-                  border: Border.all(
-                    width: 1,
-                    color: Color.fromRGBO(241, 243, 245, 1),
-                  ),
-                ),
-                child: Text(
-                  "${item.name}",
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Color.fromRGBO(0, 56, 76, 1),
-                  ),
-                ),
+              return Observer(
+                builder: (_) {
+                  return InkWell(
+                    onTap: () => controller.onChangeCategory(index),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12,
+                        // vertical: 4,
+                      ),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: controller.selectedCategory == index
+                            ? Color.fromRGBO(0, 56, 76, 1)
+                            : Colors.white,
+                        borderRadius: BorderRadius.circular(26),
+                        border: Border.all(
+                          width: 1,
+                          color: Color.fromRGBO(241, 243, 245, 1),
+                        ),
+                      ),
+                      child: Text(
+                        "${item.name}",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: controller.selectedCategory == index
+                              ? Colors.white
+                              : Color.fromRGBO(0, 56, 76, 1),
+                        ),
+                      ),
+                    ),
+                  );
+                },
               );
             },
           );

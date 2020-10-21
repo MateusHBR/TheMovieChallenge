@@ -3,6 +3,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:the_movie_challenge/app/modules/movie/models/cast_model.dart';
 import 'package:the_movie_challenge/app/modules/movie/models/crew_model.dart';
 import 'package:the_movie_challenge/app/modules/movie/models/current_movie_model.dart';
+import 'package:the_movie_challenge/app/modules/movie/models/production_company_model.dart';
 import 'package:the_movie_challenge/app/modules/movie/repositories/current_movie_repository.dart';
 
 part 'movie_controller.g.dart';
@@ -31,7 +32,6 @@ abstract class _MovieControllerBase with Store {
   getId(String currentId) {
     status = false;
     id = currentId;
-    print(id);
     currentMovieFuture = _currentMovieRepository
         .getMovieData(
           id: id,
@@ -43,6 +43,12 @@ abstract class _MovieControllerBase with Store {
     );
     // currentMovieData.creditsModel.cast
     status = true;
+  }
+
+  String convertProductionCompanyModel(List<ProductionCompanyModel> companies) {
+    return '${companies.map((company) => company.name)}'
+        .replaceAll('(', '')
+        .replaceAll(')', '');
   }
 
   String convertCast(List<CastModel> cast) {

@@ -12,7 +12,7 @@ class CurrentMovieModel {
   List<GenreModel> genres = [];
   int runtime = 0;
   int budget = 0;
-  List<ProductionCompany> productionCompanies = [];
+  List<ProductionCompanyModel> productionCompanies = [];
   CreditsModel creditsModel;
 
   CurrentMovieModel({
@@ -45,9 +45,9 @@ class CurrentMovieModel {
       });
     }
     if (json['production_companies'] != null) {
-      productionCompanies = new List<ProductionCompany>();
+      productionCompanies = new List<ProductionCompanyModel>();
       json['production_companies'].forEach((v) {
-        productionCompanies.add(new ProductionCompany.fromJson(v));
+        productionCompanies.add(new ProductionCompanyModel.fromJson(v));
       });
     }
     creditsModel = json['credits'] != null

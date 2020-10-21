@@ -32,7 +32,6 @@ class _MoviePageState extends ModularState<MoviePage, MovieController> {
         width: size.width,
         child: Observer(
           builder: (_) {
-            print(controller.currentMovieFuture.value);
             if (controller.currentMovieFuture.status == FutureStatus.rejected) {
               return Center(
                 child: Icon(Icons.error_outline_outlined),
@@ -75,6 +74,9 @@ class _MoviePageState extends ModularState<MoviePage, MovieController> {
                   size,
                   description: movie.overview,
                   value: movie.budget.toString(),
+                  companies: controller.convertProductionCompanyModel(
+                    movie.productionCompanies,
+                  ),
                 ),
                 team(
                   cast: controller.convertCast(
@@ -144,7 +146,9 @@ Widget team({@required String cast, @required String crew}) {
 }
 
 Widget description(Size size,
-    {@required String description, @required String value}) {
+    {@required String description,
+    @required String value,
+    @required String companies}) {
   return Column(
     children: [
       Padding(
@@ -190,7 +194,7 @@ Widget description(Size size,
             ),
             GrayTagWidget(
               itemKey: "PRODUTORAS",
-              itemValue: "Marvel Studios",
+              itemValue: companies.isEmpty ? 'Não Informado' : companies,
               width: size.width,
             ),
           ],

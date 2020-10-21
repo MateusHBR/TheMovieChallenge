@@ -23,7 +23,7 @@ class GrayTagWidget extends StatelessWidget {
         horizontal: 16,
         vertical: 10,
       ),
-      child: Row(
+      child: Wrap(
         children: [
           Text(
             '$itemKey: ',

@@ -15,4 +15,16 @@ class GenreModel {
       "name": this.name,
     };
   }
+
+  // copyWith(
+  //   int id,
+  //   String name,
+  //   bool selected,
+  // ) {
+  //   return GenreModel(
+  //     id: this.id,
+  //     name: this.name,
+  //     selected: selected ?? this.selected,
+  //   );
+  // }
 }

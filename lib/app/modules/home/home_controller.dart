@@ -30,6 +30,17 @@ abstract class _HomeControllerBase with Store {
   @observable
   ObservableList<MovieModel> movieList = <MovieModel>[].asObservable();
 
+  @observable
+  int selectedCategory = 0;
+
+  @observable
+  int currentPage = 0;
+
+  @action
+  onChangeCategory(int id) {
+    selectedCategory = id;
+  }
+
   @action
   fetchGenres() {
     genreFuture = _genreRepository.getGenres().asObservable();
@@ -46,9 +57,6 @@ abstract class _HomeControllerBase with Store {
     movieFuture.whenComplete(
       () => {
         movieList.addAll(movieFuture.value),
-        movieList.forEach((movie) {
-          movie.genres = getGenresFromMovies(movie.genreIds);
-        }),
       },
     );
   }
@@ -57,15 +65,19 @@ abstract class _HomeControllerBase with Store {
   String getGenresFromMovies(List<int> listOfgenreId) {
     String currentGenre = "";
 
-    listOfgenreId.forEach((id) {
-      genreList.forEach((item) {
-        if (item.id == id) {
-          currentGenre.length == 0
-              ? currentGenre = "${item.name}"
-              : currentGenre = currentGenre + " - ${item.name}";
-        }
-      });
-    });
+    listOfgenreId.forEach(
+      (id) {
+        genreList.forEach(
+          (item) {
+            if (item.id == id) {
+              currentGenre.length == 0
+                  ? currentGenre = "${item.name}"
+                  : currentGenre = currentGenre + " - ${item.name}";
+            }
+          },
+        );
+      },
+    );
 
     return currentGenre;
   }

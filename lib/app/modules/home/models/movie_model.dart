@@ -2,7 +2,6 @@ class MovieModel {
   String posterPath;
   int id;
   List<int> genreIds;
-  String genres;
   String title;
 
   MovieModel({
@@ -10,7 +9,6 @@ class MovieModel {
     this.id,
     this.genreIds,
     this.title,
-    this.genres,
   });
 
   MovieModel.fromJSON(Map<String, dynamic> json) {

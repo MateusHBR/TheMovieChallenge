@@ -79,8 +79,50 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
+  final _$selectedCategoryAtom =
+      Atom(name: '_HomeControllerBase.selectedCategory');
+
+  @override
+  int get selectedCategory {
+    _$selectedCategoryAtom.reportRead();
+    return super.selectedCategory;
+  }
+
+  @override
+  set selectedCategory(int value) {
+    _$selectedCategoryAtom.reportWrite(value, super.selectedCategory, () {
+      super.selectedCategory = value;
+    });
+  }
+
+  final _$currentPageAtom = Atom(name: '_HomeControllerBase.currentPage');
+
+  @override
+  int get currentPage {
+    _$currentPageAtom.reportRead();
+    return super.currentPage;
+  }
+
+  @override
+  set currentPage(int value) {
+    _$currentPageAtom.reportWrite(value, super.currentPage, () {
+      super.currentPage = value;
+    });
+  }
+
   final _$_HomeControllerBaseActionController =
       ActionController(name: '_HomeControllerBase');
+
+  @override
+  dynamic onChangeCategory(int id) {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.onChangeCategory');
+    try {
+      return super.onChangeCategory(id);
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   dynamic fetchGenres() {
@@ -121,7 +163,9 @@ mixin _$HomeController on _HomeControllerBase, Store {
 genreFuture: ${genreFuture},
 genreList: ${genreList},
 movieFuture: ${movieFuture},
-movieList: ${movieList}
+movieList: ${movieList},
+selectedCategory: ${selectedCategory},
+currentPage: ${currentPage}
     ''';
   }
 }
