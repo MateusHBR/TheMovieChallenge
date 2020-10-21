@@ -1,20 +1,18 @@
-import 'package:the_movie_challenge/app/modules/movie/models/cast_model.dart';
 import 'package:the_movie_challenge/app/modules/movie/models/credits_model.dart';
-import 'package:the_movie_challenge/app/modules/movie/models/crew_model.dart';
-import 'package:the_movie_challenge/app/modules/movie/models/production_company.dart';
+import 'package:the_movie_challenge/app/modules/movie/models/production_company_model.dart';
 import 'package:the_movie_challenge/app/shared/models/genre_model.dart';
 
 class CurrentMovieModel {
-  String title;
-  String originalTitle;
-  String overview;
-  String releaseDate;
-  String posterPath;
-  double voteAverage;
-  List<GenreModel> genres;
-  int runtime;
-  double budget;
-  List<ProductionCompany> productionCompanies;
+  String title = "";
+  String originalTitle = "";
+  String overview = "";
+  String releaseDate = "";
+  String posterPath = "";
+  double voteAverage = 0.0;
+  List<GenreModel> genres = [];
+  int runtime = 0;
+  int budget = 0;
+  List<ProductionCompany> productionCompanies = [];
   CreditsModel creditsModel;
 
   CurrentMovieModel({

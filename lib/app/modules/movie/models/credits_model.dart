@@ -2,8 +2,8 @@ import 'package:the_movie_challenge/app/modules/movie/models/cast_model.dart';
 import 'package:the_movie_challenge/app/modules/movie/models/crew_model.dart';
 
 class CreditsModel {
-  List<CastModel> cast;
-  List<CrewModel> crew;
+  List<CastModel> cast = [];
+  List<CrewModel> crew = [];
 
   CreditsModel({this.cast, this.crew});
 

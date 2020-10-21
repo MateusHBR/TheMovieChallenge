@@ -1,8 +1,8 @@
 class CrewModel {
-  String department;
-  int id;
-  String job;
-  String name;
+  String department = "";
+  int id = 0;
+  String job = "";
+  String name = "";
 
   CrewModel({this.department, this.id, this.job, this.name});
 

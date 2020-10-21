@@ -53,6 +53,7 @@ abstract class _HomeControllerBase with Store {
     );
   }
 
+  @action
   String getGenresFromMovies(List<int> listOfgenreId) {
     String currentGenre = "";
 

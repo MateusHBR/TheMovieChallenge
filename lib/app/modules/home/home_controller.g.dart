@@ -105,6 +105,17 @@ mixin _$HomeController on _HomeControllerBase, Store {
   }
 
   @override
+  String getGenresFromMovies(List<int> listOfgenreId) {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.getGenresFromMovies');
+    try {
+      return super.getGenresFromMovies(listOfgenreId);
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 genreFuture: ${genreFuture},

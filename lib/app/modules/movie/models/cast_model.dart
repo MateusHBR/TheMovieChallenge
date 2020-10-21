@@ -1,7 +1,7 @@
 class CastModel {
-  int castId;
-  String character;
-  String name;
+  int castId = 0;
+  String character = "";
+  String name = "";
 
   CastModel({this.castId, this.character, this.name});
 

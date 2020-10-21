@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:mobx/mobx.dart';
 import 'home_controller.dart';
 
 class HomePage extends StatefulWidget {
@@ -74,14 +75,22 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                       ],
                     ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      appBar(widget.title),
-                      searchFilms(size),
-                      listOfCategories(size),
-                    ],
-                  ),
+                  child: Observer(builder: (_) {
+                    if (controller.movieFuture.status == FutureStatus.pending) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        appBar(widget.title),
+                        searchFilms(size),
+                        listOfCategories(size),
+                      ],
+                    );
+                  }),
                 ),
               ),
             ],

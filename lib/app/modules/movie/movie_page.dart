@@ -32,9 +32,10 @@ class _MoviePageState extends ModularState<MoviePage, MovieController> {
         width: size.width,
         child: Observer(
           builder: (_) {
-            if (controller.currentMovieFuture.value == null) {
+            print(controller.currentMovieFuture.value);
+            if (controller.currentMovieFuture.status == FutureStatus.rejected) {
               return Center(
-                child: CircularProgressIndicator(),
+                child: Icon(Icons.error_outline_outlined),
               );
             }
 
