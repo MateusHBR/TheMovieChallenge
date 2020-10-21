@@ -79,6 +79,21 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
+  final _$filteredItemsAtom = Atom(name: '_HomeControllerBase.filteredItems');
+
+  @override
+  ObservableList<MovieModel> get filteredItems {
+    _$filteredItemsAtom.reportRead();
+    return super.filteredItems;
+  }
+
+  @override
+  set filteredItems(ObservableList<MovieModel> value) {
+    _$filteredItemsAtom.reportWrite(value, super.filteredItems, () {
+      super.filteredItems = value;
+    });
+  }
+
   final _$selectedCategoryAtom =
       Atom(name: '_HomeControllerBase.selectedCategory');
 
@@ -110,8 +125,47 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
+  final _$searchByInputingTextAtom =
+      Atom(name: '_HomeControllerBase.searchByInputingText');
+
+  @override
+  String get searchByInputingText {
+    _$searchByInputingTextAtom.reportRead();
+    return super.searchByInputingText;
+  }
+
+  @override
+  set searchByInputingText(String value) {
+    _$searchByInputingTextAtom.reportWrite(value, super.searchByInputingText,
+        () {
+      super.searchByInputingText = value;
+    });
+  }
+
   final _$_HomeControllerBaseActionController =
       ActionController(name: '_HomeControllerBase');
+
+  @override
+  dynamic onChangeText(String newValue) {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.onChangeText');
+    try {
+      return super.onChangeText(newValue);
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic clearText() {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.clearText');
+    try {
+      return super.clearText();
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   dynamic onChangeCategory({@required int index, @required int id}) {
@@ -119,6 +173,17 @@ mixin _$HomeController on _HomeControllerBase, Store {
         name: '_HomeControllerBase.onChangeCategory');
     try {
       return super.onChangeCategory(index: index, id: id);
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic loadNewPage() {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.loadNewPage');
+    try {
+      return super.loadNewPage();
     } finally {
       _$_HomeControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -175,8 +240,10 @@ genreFuture: ${genreFuture},
 genreList: ${genreList},
 movieFuture: ${movieFuture},
 movieList: ${movieList},
+filteredItems: ${filteredItems},
 selectedCategory: ${selectedCategory},
-currentPage: ${currentPage}
+currentPage: ${currentPage},
+searchByInputingText: ${searchByInputingText}
     ''';
   }
 }

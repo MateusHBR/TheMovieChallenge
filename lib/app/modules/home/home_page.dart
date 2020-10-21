@@ -13,7 +13,28 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends ModularState<HomePage, HomeController> {
-  //use 'controller' variable to access controller
+  ScrollController _scrollController;
+
+  _scrollListener() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      controller.loadNewPage();
+      print(controller.currentPage);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,40 +78,69 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                           );
                         }
 
-                        if (controller.movieFuture.status ==
-                            FutureStatus.pending) {
+                        if (controller.movieList.length == 0) {
                           return Center(
                             child: CircularProgressIndicator(),
                           );
                         }
 
                         return ListView.separated(
+                          controller: _scrollController,
                           padding: EdgeInsets.only(top: 66, bottom: 57),
-                          itemCount: controller.movieList.length,
+                          itemCount: controller.filteredItems.length + 1,
                           separatorBuilder: (context, index) => SizedBox(
                             height: 16,
                           ),
                           itemBuilder: (context, index) {
-                            var movie = controller.movieList[index];
-                            return InkWell(
-                              onTap: () {
-                                Modular.to.pushNamed(
-                                  '/movie/${movie.id}',
-                                  arguments: movie.posterPath,
-                                );
-                              },
-                              child: Hero(
-                                tag: movie.id.toString(),
-                                child: movieItem(
-                                  size,
-                                  title: movie.title,
-                                  genres: controller.getGenresFromMovies(
-                                    movie.genreIds,
-                                  ),
-                                  image: movie.posterPath,
+                            if (index == controller.filteredItems.length &&
+                                index > 0) {
+                              return Center(
+                                child: Container(
+                                  height: 80,
+                                  width: 80,
+                                  alignment: Alignment.center,
+                                  child: CircularProgressIndicator(),
                                 ),
-                              ),
-                            );
+                              );
+                            } else if (index ==
+                                    controller.filteredItems.length &&
+                                index == 0) {
+                              return Center(
+                                child: RaisedButton.icon(
+                                  color: Theme.of(context).primaryColor,
+                                  textColor: Colors.white,
+                                  onPressed: controller.loadNewPage,
+                                  icon: Icon(Icons.refresh),
+                                  label: Text(
+                                    'Carregar mais dados',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            } else {
+                              var movie = controller.filteredItems[index];
+                              return InkWell(
+                                onTap: () {
+                                  Modular.to.pushNamed(
+                                    '/movie/${movie.id}',
+                                    arguments: movie.posterPath,
+                                  );
+                                },
+                                child: Hero(
+                                  tag: movie.id.toString(),
+                                  child: movieItem(
+                                    size,
+                                    title: movie.title,
+                                    genres: controller.getGenresFromMovies(
+                                      movie.genreIds,
+                                    ),
+                                    image: movie.posterPath,
+                                  ),
+                                ),
+                              );
+                            }
                           },
                         );
                       },
@@ -237,10 +287,16 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
               return Observer(
                 builder: (_) {
                   return InkWell(
-                    onTap: () => controller.onChangeCategory(
-                      index: index,
-                      id: item.id,
-                    ),
+                    onTap: () {
+                      setState(() {
+                        _scrollController.position.jumpTo(0.0);
+                      });
+
+                      controller.onChangeCategory(
+                        index: index,
+                        id: item.id,
+                      );
+                    },
                     child: Container(
                       padding: EdgeInsets.symmetric(
                         horizontal: 12,
@@ -282,6 +338,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
       width: size.width,
       padding: EdgeInsets.symmetric(horizontal: 21.5),
       child: TextField(
+        onChanged: controller.onChangeText,
+        controller: controller.searchMoviesController,
         decoration: InputDecoration(
           filled: true,
           fillColor: Color.fromRGBO(241, 243, 245, 1),
@@ -290,6 +348,15 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
             borderRadius: BorderRadius.circular(100),
           ),
           prefixIcon: Icon(Icons.search),
+          suffixIcon: controller.searchByInputingText.length > 0
+              ? IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    FocusScope.of(context).unfocus();
+                    controller.clearText();
+                  },
+                )
+              : null,
           hintText: 'Pesquise filmes',
         ),
       ),

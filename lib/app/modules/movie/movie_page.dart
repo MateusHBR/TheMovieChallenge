@@ -246,11 +246,14 @@ Widget title({@required String title, @required String originalTitle}) {
     margin: EdgeInsets.only(
       top: 32,
       bottom: 56,
+      left: 20,
+      right: 20,
     ),
     child: Column(
       children: [
         Text(
           title.toUpperCase(),
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontWeight: FontWeight.w600,
             color: Color.fromRGBO(52, 58, 64, 1),
@@ -260,6 +263,7 @@ Widget title({@required String title, @required String originalTitle}) {
         SizedBox(height: 12),
         Text(
           originalTitle,
+          textAlign: TextAlign.center,
           style: TextStyle(
             color: Color.fromRGBO(94, 103, 112, 1),
             fontSize: 10,
