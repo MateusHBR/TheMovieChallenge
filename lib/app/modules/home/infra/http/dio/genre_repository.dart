@@ -1,12 +1,14 @@
 import 'package:dio/dio.dart';
+import 'package:the_movie_challenge/app/modules/home/repositories/interface_genre_repository.dart';
 
 import 'package:the_movie_challenge/app/shared/constants/api_key.dart';
 import 'package:the_movie_challenge/app/shared/models/genre_model.dart';
 
-class GenreRepository {
+class GenreRepository implements IGenreRepository {
   final Dio _dio;
   GenreRepository(this._dio);
 
+  @override
   Future<List<GenreModel>> getGenres() async {
     var response = await _dio.get(
       "/genre/movie/list?api_key=$API_KEY&language=pt-BR",

@@ -7,7 +7,7 @@ part of 'movie_controller.dart';
 // **************************************************************************
 
 final $MovieController = BindInject(
-  (i) => MovieController(i<CurrentMovieRepository>()),
+  (i) => MovieController(i<IMoviesRepository>()),
   singleton: true,
   lazy: true,
 );
@@ -38,13 +38,13 @@ mixin _$MovieController on _MovieControllerBase, Store {
       Atom(name: '_MovieControllerBase.currentMovieFuture');
 
   @override
-  ObservableFuture<CurrentMovieModel> get currentMovieFuture {
+  ObservableFuture<MovieDetailsModel> get currentMovieFuture {
     _$currentMovieFutureAtom.reportRead();
     return super.currentMovieFuture;
   }
 
   @override
-  set currentMovieFuture(ObservableFuture<CurrentMovieModel> value) {
+  set currentMovieFuture(ObservableFuture<MovieDetailsModel> value) {
     _$currentMovieFutureAtom.reportWrite(value, super.currentMovieFuture, () {
       super.currentMovieFuture = value;
     });
@@ -54,13 +54,13 @@ mixin _$MovieController on _MovieControllerBase, Store {
       Atom(name: '_MovieControllerBase.currentMovieData');
 
   @override
-  CurrentMovieModel get currentMovieData {
+  MovieDetailsModel get currentMovieData {
     _$currentMovieDataAtom.reportRead();
     return super.currentMovieData;
   }
 
   @override
-  set currentMovieData(CurrentMovieModel value) {
+  set currentMovieData(MovieDetailsModel value) {
     _$currentMovieDataAtom.reportWrite(value, super.currentMovieData, () {
       super.currentMovieData = value;
     });

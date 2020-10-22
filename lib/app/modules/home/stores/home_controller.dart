@@ -2,11 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:the_movie_challenge/app/modules/home/models/movie_model.dart';
 
+import 'package:the_movie_challenge/app/modules/home/repositories/interface_genre_repository.dart';
+import 'package:the_movie_challenge/app/shared/repositories/interface_movies_repository.dart';
+
+import 'package:the_movie_challenge/app/shared/models/movie_model.dart';
 import 'package:the_movie_challenge/app/shared/models/genre_model.dart';
-import 'package:the_movie_challenge/app/modules/home/repositories/genre_repository.dart';
-import 'package:the_movie_challenge/app/modules/home/repositories/movie_repository.dart';
 
 part 'home_controller.g.dart';
 
@@ -14,8 +15,8 @@ part 'home_controller.g.dart';
 class HomeController = _HomeControllerBase with _$HomeController;
 
 abstract class _HomeControllerBase with Store {
-  final GenreRepository _genreRepository;
-  final MovieRepository _moviesRepository;
+  final IGenreRepository _genreRepository;
+  final IMoviesRepository _moviesRepository;
 
   var searchMoviesController = new TextEditingController();
 
@@ -93,11 +94,7 @@ abstract class _HomeControllerBase with Store {
 
   @action
   fetchMovies() {
-    movieFuture = _moviesRepository
-        .getMovies(
-          page: currentPage,
-        )
-        .asObservable();
+    movieFuture = _moviesRepository.getMoviesList(currentPage).asObservable();
 
     List<MovieModel> filteredMovies = [];
 

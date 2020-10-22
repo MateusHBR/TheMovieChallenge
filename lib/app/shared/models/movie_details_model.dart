@@ -1,8 +1,8 @@
 import 'package:the_movie_challenge/app/modules/movie/models/credits_model.dart';
-import 'package:the_movie_challenge/app/modules/movie/models/production_company_model.dart';
+import 'package:the_movie_challenge/app/shared/models/production_company_model.dart';
 import 'package:the_movie_challenge/app/shared/models/genre_model.dart';
 
-class CurrentMovieModel {
+class MovieDetailsModel {
   String title = "";
   String originalTitle = "";
   String overview = "";
@@ -15,7 +15,7 @@ class CurrentMovieModel {
   List<ProductionCompanyModel> productionCompanies = [];
   CreditsModel creditsModel;
 
-  CurrentMovieModel({
+  MovieDetailsModel({
     this.title,
     this.originalTitle,
     this.overview,
@@ -29,7 +29,7 @@ class CurrentMovieModel {
     this.budget,
   });
 
-  CurrentMovieModel.fromJson(Map<String, dynamic> json) {
+  MovieDetailsModel.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     originalTitle = json['original_title'];
     overview = json['overview'];

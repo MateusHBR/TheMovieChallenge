@@ -1,22 +1,16 @@
-import 'package:dio/dio.dart';
-import 'package:the_movie_challenge/app/modules/movie/repositories/current_movie_repository.dart';
+import 'package:the_movie_challenge/app/shared/infra/http/dio/movies_repository.dart';
 
-import 'movie_controller.dart';
+import 'stores/movie_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-import 'movie_page.dart';
+import 'pages/movie_page.dart';
 
 class MovieModule extends ChildModule {
   @override
   List<Bind> get binds => [
         Bind(
           (i) => MovieController(
-            i.get<CurrentMovieRepository>(),
-          ),
-        ),
-        Bind(
-          (i) => CurrentMovieRepository(
-            i.get<Dio>(),
+            i.get<MovieRepository>(),
           ),
         ),
       ];

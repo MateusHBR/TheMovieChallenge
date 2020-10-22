@@ -6,7 +6,7 @@ import 'package:the_movie_challenge/app/modules/movie/pages/skeleton_movie_page.
 import 'package:the_movie_challenge/app/modules/movie/widgets/genre_movie_item.dart';
 import 'package:the_movie_challenge/app/modules/movie/widgets/gray_tag_widget.dart';
 import 'package:the_movie_challenge/app/shared/models/genre_model.dart';
-import 'movie_controller.dart';
+import '../stores/movie_controller.dart';
 
 class MoviePage extends StatefulWidget {
   final String title;

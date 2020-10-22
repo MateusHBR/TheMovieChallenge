@@ -1,10 +1,12 @@
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+
 import 'package:the_movie_challenge/app/modules/movie/models/cast_model.dart';
 import 'package:the_movie_challenge/app/modules/movie/models/crew_model.dart';
-import 'package:the_movie_challenge/app/modules/movie/models/current_movie_model.dart';
-import 'package:the_movie_challenge/app/modules/movie/models/production_company_model.dart';
-import 'package:the_movie_challenge/app/modules/movie/repositories/current_movie_repository.dart';
+import 'package:the_movie_challenge/app/shared/models/movie_details_model.dart';
+import 'package:the_movie_challenge/app/shared/models/production_company_model.dart';
+
+import 'package:the_movie_challenge/app/shared/repositories/interface_movies_repository.dart';
 
 part 'movie_controller.g.dart';
 
@@ -12,18 +14,18 @@ part 'movie_controller.g.dart';
 class MovieController = _MovieControllerBase with _$MovieController;
 
 abstract class _MovieControllerBase with Store {
-  final CurrentMovieRepository _currentMovieRepository;
+  final IMoviesRepository _moviesRepository;
 
-  _MovieControllerBase(this._currentMovieRepository);
+  _MovieControllerBase(this._moviesRepository);
 
   @observable
   String id;
 
   @observable
-  ObservableFuture<CurrentMovieModel> currentMovieFuture;
+  ObservableFuture<MovieDetailsModel> currentMovieFuture;
 
   @observable
-  CurrentMovieModel currentMovieData;
+  MovieDetailsModel currentMovieData;
 
   @observable
   bool status = false;
@@ -32,7 +34,7 @@ abstract class _MovieControllerBase with Store {
   getId(String currentId) {
     status = false;
     id = currentId;
-    currentMovieFuture = _currentMovieRepository
+    currentMovieFuture = _moviesRepository
         .getMovieData(
           id: id,
         )

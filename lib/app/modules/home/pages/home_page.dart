@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:the_movie_challenge/app/modules/home/pages/skeleton_home_page.dart';
-import 'home_controller.dart';
+import '../stores/home_controller.dart';
 
 class HomePage extends StatefulWidget {
   final String title;

@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:the_movie_challenge/app/modules/home/repositories/genre_repository.dart';
-import 'package:the_movie_challenge/app/modules/home/repositories/movie_repository.dart';
+import 'package:the_movie_challenge/app/modules/home/infra/http/dio/genre_repository.dart';
+import 'package:the_movie_challenge/app/shared/infra/http/dio/movies_repository.dart';
 
-import 'home_controller.dart';
+import 'stores/home_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-import 'home_page.dart';
+import 'pages/home_page.dart';
 
 class HomeModule extends ChildModule {
   @override
@@ -18,11 +18,6 @@ class HomeModule extends ChildModule {
         ),
         Bind(
           (i) => GenreRepository(
-            i.get<Dio>(),
-          ),
-        ),
-        Bind(
-          (i) => MovieRepository(
             i.get<Dio>(),
           ),
         ),

@@ -2,6 +2,8 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:the_movie_challenge/app/modules/movie/movie_module.dart';
+import 'package:the_movie_challenge/app/shared/infra/http/dio/movies_repository.dart';
+import 'package:the_movie_challenge/app/shared/repositories/interface_movies_repository.dart';
 
 import './app_widget.dart';
 import './app_controller.dart';
@@ -15,6 +17,11 @@ class AppModule extends MainModule {
         Bind(
           (i) => Dio(
             BaseOptions(baseUrl: BASE_URL),
+          ),
+        ),
+        Bind(
+          (i) => MovieRepository(
+            i.get<Dio>(),
           ),
         ),
       ];
