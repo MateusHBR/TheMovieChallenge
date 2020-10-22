@@ -33,6 +33,7 @@ class GrayTagWidget extends StatelessWidget {
               color: Color.fromRGBO(134, 142, 150, 1),
             ),
           ),
+          SizedBox(width: 6),
           Text(
             '$itemValue',
             style: TextStyle(

@@ -195,7 +195,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
             "https://image.tmdb.org/t/p/w780/$image",
           ),
         ),
-        color: Colors.blue,
+        color: Color.fromRGBO(241, 243, 245, 1),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Stack(
@@ -238,6 +238,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
+                        fontSize: 14,
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
                       ),
@@ -256,6 +257,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
+                        fontSize: 10,
                         color: Colors.white,
                       ),
                     ),
@@ -310,7 +312,9 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                         borderRadius: BorderRadius.circular(26),
                         border: Border.all(
                           width: 1,
-                          color: Color.fromRGBO(241, 243, 245, 1),
+                          color: controller.selectedCategory == index
+                              ? Color.fromRGBO(0, 56, 76, 1)
+                              : Color.fromRGBO(241, 243, 245, 1),
                         ),
                       ),
                       child: Text(
@@ -347,7 +351,10 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
             borderSide: BorderSide.none,
             borderRadius: BorderRadius.circular(100),
           ),
-          prefixIcon: Icon(Icons.search),
+          prefixIcon: Icon(
+            Icons.search,
+            color: Color.fromRGBO(94, 103, 112, 1),
+          ),
           suffixIcon: controller.searchByInputingText.length > 0
               ? IconButton(
                   icon: Icon(Icons.close),
@@ -358,6 +365,10 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                 )
               : null,
           hintText: 'Pesquise filmes',
+          hintStyle: TextStyle(
+            fontSize: 14,
+            color: Color.fromRGBO(94, 103, 112, 1),
+          ),
         ),
       ),
     );

@@ -262,11 +262,12 @@ Widget title({@required String title, @required String originalTitle}) {
         ),
         SizedBox(height: 12),
         Text(
-          originalTitle,
+          'Título original: $originalTitle',
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Color.fromRGBO(94, 103, 112, 1),
             fontSize: 10,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ],
@@ -321,20 +322,28 @@ Widget header(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               RaisedButton.icon(
+                elevation: 2,
                 padding: EdgeInsets.symmetric(vertical: 9, horizontal: 13),
                 shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                    color: Color.fromRGBO(250, 250, 250, 1),
+                    width: 1,
+                  ),
                   borderRadius: BorderRadius.circular(100),
                 ),
                 color: Color.fromRGBO(255, 255, 255, 1),
                 textColor: Color.fromRGBO(109, 112, 112, 1),
                 icon: Icon(
                   Icons.arrow_back_ios,
-                  size: 16,
+                  size: 12,
+                  color: Color.fromRGBO(109, 112, 112, 1),
                 ),
                 label: Text(
                   'Voltar',
                   style: TextStyle(
                     fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Color.fromRGBO(109, 112, 112, 1),
                   ),
                 ),
                 onPressed: () {

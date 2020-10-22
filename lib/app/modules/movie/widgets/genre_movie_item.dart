@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class GenreMovieItem extends StatelessWidget {
-  String title;
+  final String title;
 
   GenreMovieItem({@required this.title});
 
@@ -17,7 +17,7 @@ class GenreMovieItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
       ),
       child: Text(
-        "${title}".toUpperCase(),
+        "${title.toUpperCase()}",
         style: TextStyle(
           fontWeight: FontWeight.w600,
           fontSize: 14,
