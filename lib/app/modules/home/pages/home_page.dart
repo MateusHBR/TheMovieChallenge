@@ -36,6 +36,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
   @override
   void dispose() {
     _scrollController.dispose();
+    controller.searchMoviesController.dispose();
     super.dispose();
   }
 
