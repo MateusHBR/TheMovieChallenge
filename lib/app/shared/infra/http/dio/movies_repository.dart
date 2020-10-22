@@ -4,7 +4,7 @@ import 'package:the_movie_challenge/app/shared/constants/api_key.dart';
 import 'package:the_movie_challenge/app/shared/models/movie_details_model.dart';
 import 'package:the_movie_challenge/app/shared/repositories/interface_movies_repository.dart';
 
-import '../../../models/movie_model.dart';
+import 'package:the_movie_challenge/app/shared/models/movie_model.dart';
 
 class MovieRepository implements IMoviesRepository {
   final Dio _dio;
