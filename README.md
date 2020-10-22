@@ -1,5 +1,7 @@
 # The Movie Challenge
 
+Este projeto foi gerado com [Slidy](https://github.com/Flutterando/slidy) versão 2.2.1.
+
 Aplicativo proposto pela empresa Cubos Tecnologia como teste técnico, com o objetivo de construir uma aplicação mobile que liste filmes e suas respectivas informações vindas de uma API.
 
 
@@ -58,9 +60,3 @@ $ flutter build apk
 # Caso queria utilizar o aplicativo em seu dispositivo móvel, acesse a pasta ./build/app/outputs/apk/release/app-release.apk
 # Pegue este arquivo app-release.apk e instale em seu dispositivo.
 ```
-
-
-
-
-
-
