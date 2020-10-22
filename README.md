@@ -46,6 +46,7 @@ $ cd TheMovieChallenge-main
 
 # Tenha o ambiente Flutter instalado, configurado em sua máquina e com a variável de ambiente corretamente configurada.
 
+# Acesse a pasta /lib/app/shared/constants altere o nome do arquivo api_key.example.dart para api_key.dart e acesse o mesmo, altere o "WRITE YOUR API KEY HERE" para a chave que foi configurada pela API TheMovieDB com o link no escopo do projeto. exemplo: "keyTeste12345"
 
 # Caso queira rodar no seu computador, tenha um emulador de Android ou IOS configurado em sua máquina e em execução para poder executar o Aplicativo.
 # O comando abaixo é caso você esteja utilizando um emulador em sua máquina
