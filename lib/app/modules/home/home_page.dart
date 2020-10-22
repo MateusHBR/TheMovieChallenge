@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import 'package:the_movie_challenge/app/modules/home/pages/skeleton_home_page.dart';
 import 'home_controller.dart';
 
 class HomePage extends StatefulWidget {
@@ -49,16 +50,24 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
             builder: (_) {
               if (controller.genreFuture.status == FutureStatus.rejected) {
                 return Center(
-                  child: Icon(
-                    Icons.error_outline_outlined,
-                    color: Colors.red,
+                  child: RaisedButton.icon(
+                    color: Theme.of(context).primaryColor,
+                    textColor: Colors.white,
+                    onPressed: controller.fetchGenres,
+                    icon: Icon(Icons.refresh),
+                    label: Text(
+                      'Oops! Ocorreu um erro, tente novamente',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
                 );
               }
 
               if (controller.genreFuture.status == FutureStatus.pending) {
                 return Center(
-                  child: CircularProgressIndicator(),
+                  child: SkeletonHomePage(),
                 );
               }
 
@@ -71,9 +80,17 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                         if (controller.movieFuture.status ==
                             FutureStatus.rejected) {
                           return Center(
-                            child: Icon(
-                              Icons.error_outline_outlined,
-                              color: Colors.red,
+                            child: RaisedButton.icon(
+                              color: Theme.of(context).primaryColor,
+                              textColor: Colors.white,
+                              onPressed: controller.loadNewPage,
+                              icon: Icon(Icons.refresh),
+                              label: Text(
+                                'Oops! Ocorreu um erro, tente novamente',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
                             ),
                           );
                         }
@@ -99,23 +116,24 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                                   height: 80,
                                   width: 80,
                                   alignment: Alignment.center,
-                                  child: CircularProgressIndicator(),
+                                  child: Opacity(
+                                    opacity:
+                                        controller.searchByInputingText.isEmpty
+                                            ? 1.0
+                                            : 0.0,
+                                    child: CircularProgressIndicator(),
+                                  ),
                                 ),
                               );
                             } else if (index ==
                                     controller.filteredItems.length &&
                                 index == 0) {
                               return Center(
-                                child: RaisedButton.icon(
-                                  color: Theme.of(context).primaryColor,
-                                  textColor: Colors.white,
-                                  onPressed: controller.loadNewPage,
-                                  icon: Icon(Icons.refresh),
-                                  label: Text(
-                                    'Carregar mais dados',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                child: Text(
+                                  'Nenhum item encontrado!',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
                                   ),
                                 ),
                               );
