@@ -10,7 +10,7 @@
     
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="the_movie_challenge"
+        android:label="The Movie Challenge"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
